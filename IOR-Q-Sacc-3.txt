@@ -1,0 +1,31 @@
+Sacc1	Sacc2	Sacc3		Single Score Intraclass Correlation
+3	3	3		
+3	3	2		   Model: twoway 
+0	0	0		   Type : agreement 
+2	3	2		
+1	1	1		   Subjects = 30 
+0	10	11		     Raters = 3 
+1	1	1		"   ICC(A,1) = 0.822"
+0	0	0		
+10	9	9		" F-Test, H0: r0 = 0 ; H1: r0 > 0 "
+0	0	0		" F(29,49.3) = 16.3 , p = 1.23e-16 "
+0	0	0		
+0	0	0		 95%-Confidence Interval for ICC Population Values:
+2	2	2		  0.698 < ICC < 0.905
+1	2	1		
+0	3	0		
+1	1	0		
+0	0	0		
+0	2	0		
+0	0	0		
+0	0	0		
+1	2	2		
+6	10	9		
+1	2	2		
+18	19	18		
+0	1	0		
+0	0	0		
+6	6	6		
+1	2	1		
+1	15	12		
+1	1	1		
