@@ -31,7 +31,7 @@ icc(IOR.Q.Sp.2, model="twoway", type="agreement")
 #Single Score Intraclass Correlation
 #Model: twoway 
 #Type : agreement 
-#Subjects = 33 
+#Subjects = 33  
 #Raters = 2 
 #ICC(A,1) = 0.888 (very good)
 #F-Test, H0: r0 = 0 ; H1: r0 > 0 
