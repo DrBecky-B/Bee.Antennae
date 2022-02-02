@@ -1,6 +1,6 @@
 ##### Bee.Antennae ######
 # R Code and data for analysis of antennal sensilla densities from Halictus rubicundus
-# updated 23.9.2021 
+# updated 2.2.2022 
 
 library(lme4)
 library(mgcv)
@@ -31,7 +31,7 @@ icc(IOR.Q.Sp.2, model="twoway", type="agreement")
 #Single Score Intraclass Correlation
 #Model: twoway 
 #Type : agreement 
-#Subjects = 33  
+#Subjects = 33 
 #Raters = 2 
 #ICC(A,1) = 0.888 (very good)
 #F-Test, H0: r0 = 0 ; H1: r0 > 0 
@@ -360,7 +360,7 @@ car::Anova(Age.mod.iii)
 #old foundress or B1 foundress
 
 Bee.phen <- read.csv("~/Bee.phen.txt")
-Bee.phen$SegF <- as.factor(Bee.phenl$Seg)
+Bee.phen$SegF <- as.factor(Bee.phen$Seg)
 
 # Type i sensilla (olfactory plates)
 Bee.phen.mod.i <- lmer(Sp.sum ~ Phenotype.2 + SegF + Phenotype.2*SegF + (1|Individual), data = Bee.phen)
@@ -424,6 +424,61 @@ beeswarm(Scac ~ Phenotype.2, data = Bee.phen,
          pwcol = as.character(Bee.phen$SegF), 
          pch = 16, add = TRUE)
 
+#re-run with no foundresses from 2019 (which developed and emerged in SCO)
+
+Bee.phen.2020 <- Bee.phen %>% filter(Phenotype.2 == "Sol-B1" | Phenotype.2 == "Future-rep" | Phenotype.2 == "Worker")
+
+# Type i sensilla (olfactory plates)
+Bee.phen.mod.i.2020 <- lmer(Sp.sum ~ Phenotype.2 + SegF + Phenotype.2*SegF + (1|Individual), data = Bee.phen.2020)
+simulationOutput.bee.phen.i.2020 <- simulateResiduals(fittedModel = Bee.phen.mod.i.2020, plot = T, use.u = T)
+car::Anova(Bee.phen.mod.i.2020)
+
+#Analysis of Deviance Table (Type II Wald chisquare tests)
+#Response: Sp.sum
+#Chisq Df Pr(>Chisq)    
+#Phenotype.2       1.3784  2     0.5020    
+#SegF             21.4697  1  3.595e-06 ***
+#  Phenotype.2:SegF  1.8065  2     0.4053    
+
+
+# Type ii sensilla (olfactory hairs)
+Bee.phen.mod.ii.2020 <- lmer(Stb.sum ~ Phenotype.2 + SegF + Phenotype.2*SegF + (1|Individual), data = Bee.phen.2020)
+simulationOutput.bee.phen.ii <- simulateResiduals(fittedModel = Bee.phen.mod.ii.2020, plot = T, use.u = T)
+car::Anova(Bee.phen.mod.ii.2020)
+
+#Analysis of Deviance Table (Type II Wald chisquare tests)
+#Response: Stb.sum
+#Chisq Df Pr(>Chisq)    
+#Phenotype.2       1.0502  2     0.5915    
+#SegF             37.2708  1  1.028e-09 ***
+#  Phenotype.2:SegF  0.0160  2     0.9920     
+
+
+boxplot(Stb.sum ~ Phenotype.2, data = Bee.phen.2020,
+        outline = FALSE,     
+        ylab = "# Olfactory hairs (ii)")
+beeswarm(Stb.sum ~ Phenotype.2, data = Bee.phen.2020, 
+         pwcol = as.character(Bee.phen$SegF), 
+         pch = 16, add = TRUE)
+
+# Type iii sensilla (hygro/thermoreceptors)
+Bee.phen.mod.iii.2020 <- lmer(Scac ~ Phenotype.2 + SegF + Phenotype.2*SegF + (1|Individual), data = Bee.phen.2020)
+simulationOutput.bee.phen.iii.2020 <- simulateResiduals(fittedModel = Bee.phen.mod.iii.2020, plot = T, use.u = T)
+car::Anova(Bee.phen.mod.iii.2020)
+
+#Analysis of Deviance Table (Type II Wald chisquare tests)
+#Response: Scac
+#Chisq Df Pr(>Chisq)    
+#Phenotype.2       2.4757  2     0.2900    
+#SegF             21.0657  1  4.438e-06 ***
+#  Phenotype.2:SegF  1.7760  2     0.4115    
+
+boxplot(Scac ~ Phenotype.2, data = Bee.phen.2020,
+        outline = FALSE,     
+        ylab = "# Hygro/thermoreceptors (iii)")
+beeswarm(Scac ~ Phenotype.2, data = Bee.phen.2020, 
+         pwcol = as.character(Bee.phen$SegF), 
+         pch = 16, add = TRUE)
 
 # Test for an effect of social phenotype of nest (social or solitary)
 # on the density of 3 sensilla types   
@@ -489,4 +544,5 @@ boxplot(Scac ~ Nest.phenotype, data = No.unknowns,
 beeswarm(Scac ~ Nest.phenotype, data = No.unknowns, 
          pwcol = as.character(No.unknowns$SegF), 
          pch = 16, add = TRUE)
+
 
